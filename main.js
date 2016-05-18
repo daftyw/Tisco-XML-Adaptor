@@ -55,6 +55,9 @@ function callingMain() {
                             + ' ' + param_title[e["6-POC6"]].eng
                             + ' ' + e["9-POC9"]
                             + ' ' + e["10-POC10"]
+                            + ' ' + param_title[e["6-POC6"]].thai
+                            + ' ' + e["7-POC7"]
+                            + ' ' + e["8-POC8"]
                         + '</DRECONTENT>\n'
                             // BODY PART
                         + '<UCID>' + e["1-POC1"] + '</UCID>\n'
