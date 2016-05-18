@@ -31,3 +31,9 @@ node_modules
 
 # Optional REPL history
 .node_repl_history
+
+# addition from IDEA
+.idea
+*.iml
+
+data-api-out.xml
