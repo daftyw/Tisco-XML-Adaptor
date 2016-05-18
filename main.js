@@ -1,6 +1,8 @@
 var fs = require('fs');
 var unirest = require('unirest');
-var url = 'http://10.242.12.207:8080/dep-api/query';
+var xml2js = require('xml2js');
+var builder = new xml2js.Builder();
+var url = 'http://tisco-poc-data-api.au.cloudhub.io/query';
 
 var jsonParam = { 
   'action_role' : 'DEVELOPMENT',
@@ -8,19 +10,37 @@ var jsonParam = {
   'request_data' : { 
     '$' : { 
 	  'field' : '20-POC20',
-	  'function' : 'eq',
-	  'value' : '200'
+	  'value' : '180',
+	  'function' : 'eq'
 	}
   }	
 };
 
 console.log('request = ' + JSON.stringify(jsonParam));  
   
+  
+
 // call service
 unirest.post(url)
   .type('json')
   .send(jsonParam)
   .end(function (res) {
 	 var json = res.body;
-	 console.log(json);
+	 if(json.msg_code < 0) {
+       console.log('Error: ' +json.msg_detail );
+	 } else {
+		 
+		 var out = '<?xml version="1.0"> <documents>';
+		 console.log('Success: ' + json.msg_detail);
+		 var data = json.response_data ;
+		 
+		 for(var i = 0 ; i < data.length; i++) {
+			 out = out + '<Document>' +
+			   builder.buildObject(data[i]);			 
+			 '</Document>';
+			 
+		 }
+		 
+		 out = out + '</documents>';
+	 }
   });
